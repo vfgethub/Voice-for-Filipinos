@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice for Filipinos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova-2" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: white;
+            color: #000;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            color: #000;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #000;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        .nav-menu a {
+            color: #666;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #000;
+        }
+        
+        .language-selector select {
+            background: white;
+            border: 1px solid #000;
+            color: #000;
+            padding: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Stats Banner */
+        .stats-banner {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 80px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2.5rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: white;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+        }
+        
+        .hero-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+        
+        /* Viral Quote Cards */
+        .viral-quote {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            margin: 3rem auto;
+            text-align: center;
+            max-width: 900px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .viral-quote:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .viral-quote::before {
+            content: '"';
+            font-size: 6rem;
+            position: absolute;
+            top: -1rem;
+            left: 2rem;
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+        
+        .quote-text {
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .quote-action {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+        
+        /* Buttons */
+        .btn {
+            background: #000;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: 300;
+            border: 2px solid #000;
+            transition: all 0.3s;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: white;
+            color: #000;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #000;
+        }
+        
+        .btn-outline:hover {
+            background: #000;
+            color: white;
+        }
+        
+        /* Sections */
+        .section {
+            padding: 4rem 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: -1px;
+        }
+        
+        /* Share Section */
+        .share-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .share-btn {
+            padding: 1rem;
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Issues Grid */
+        .issues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .issue-card {
+            background: white;
+            border: 1px solid #e8e8e8;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .issue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        .footer {
+            background: white;
+            border-top: 2px solid #000;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        /* Page Sections */
+        .page-section {
+            display: none;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .quote-text {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Voice for Filipinos</div>
+            <nav style="display: flex; align-items: center; gap: 2rem;">
+                <ul class="nav-menu">
+                    <li><a href="javascript:void(0)" onclick="showSection('home')">Home</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('about')">About</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('issues')">Issues</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('solutions')">Solutions</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('community')">Community</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('media')">Media</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('contact')">Contact</a></li>
+                </ul>
+                <div class="language-selector">
+                    <select>
+                        <option value="en">English</option>
+                        <option value="tl">Tagalog</option>
+                        <option value="hil">Ilongo</option>
+                        <option value="ilo">Ilocano</option>
+                        <option value="bcl">Bicolano</option>
+                        <option value="ceb">Cebuano</option>
+                        <option value="pam">Kapampangan</option>
+                    </select>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page-section active">
+        <!-- LIVE STATS BANNER -->
+        <div class="stats-banner">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <span class="live-dot"></span>
+                <span style="font-size: 0.9rem; font-weight: 600; letter-spacing: 2px;">LIVE IMPACT</span>
+            </div>
+            <div class="stats-grid">
+                <div>
+                    <div class="stat-number" data-target="1247">0</div>
+                    <div class="stat-label">STORIES DOCUMENTED</div>
+                </div>
+                <div>
+                    <div class="stat-number" data-target="892">0</div>
+                    <div class="stat-label">VOICES AMPLIFIED</div>
+                </div>
+                <div>
+                    <div class="stat-number" data-target="156">0</div>
+                    <div class="stat-label">CASES TRACKED</div>
+                </div>
+                <div>
+                    <div class="stat-number" data-target="23000">0</div>
+                    <div class="stat-label">COMMUNITY MEMBERS</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem; font-size: 0.9rem; opacity: 0.7; font-style: italic;">Every number is a Filipino fighting for justice</p>
+        </div>
+
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>A community to share, expose corruption, and injustice</h1>
+                
+                <div class="hero-text">
+                    <p style="margin-bottom: 2rem;">Every crime, corruption, and poverty in the Philippines comes from one root: <strong>a rotten judicial system.</strong></p>
+                    <p style="font-size: 1.4rem; font-weight: 400;">Fixing the justice system is not reform. It is survival.</p>
+                </div>
+                
+                <div>
+                    <a href="javascript:void(0)" class="btn" onclick="showSection('about')">Our Mission</a>
+                    <a href="javascript:void(0)" class="btn-outline btn" onclick="showSection('community')">Share Your Voice</a>
+                    <a href="javascript:void(0)" class="btn-outline btn" onclick="showSection('issues')">Current Issues</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIRAL QUOTE #1 -->
+        <div class="viral-quote" onclick="shareQuote(1)">
+            <div class="quote-text">
+                "Without justice, every anti-corruption promise is theater, every crime a rehearsal for the next, and every citizen forced to live where truth is delayed until it dies."
+            </div>
+            <div class="quote-action">📸 TAP TO SHARE THIS TRUTH</div>
+        </div>
+
+        <!-- AMPLIFY SECTION -->
+        <section class="section" style="background: #f8f8f8;">
+            <div class="container" style="max-width: 900px;">
+                <h2 style="font-size: 2rem; font-weight: 300; text-align: center; margin-bottom: 1rem;">Amplify This Movement</h2>
+                <p style="text-align: center; margin-bottom: 3rem; color: #666;">Every share exposes injustice. Every voice builds solidarity.</p>
+                
+                <div class="share-grid">
+                    <button class="share-btn" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);" onclick="shareToSocial('instagram')">Instagram</button>
+                    <button class="share-btn" style="background: #1877f2;" onclick="shareToSocial('facebook')">Facebook</button>
+                    <button class="share-btn" style="background: #000;" onclick="shareToSocial('tiktok')">TikTok</button>
+                    <button class="share-btn" style="background: #000;" onclick="shareToSocial('twitter')">X (Twitter)</button>
+                    <button class="share-btn" style="background: #ff0000;" onclick="shareToSocial('youtube')">YouTube</button>
+                    <button class="share-btn" style="background: #0077b5;" onclick="shareToSocial('linkedin')">LinkedIn</button>
+                    <button class="share-btn" style="background: #1DB954;" onclick="shareToSocial('spotify')">Spotify</button>
+                    <button class="share-btn" style="background: #E60023;" onclick="shareToSocial('pinterest')">Pinterest</button>
+                    <button class="share-btn" style="background: #ff6719;" onclick="shareToSocial('substack')">Substack</button>
+                    <button class="share-btn" style="background: #ff4500;" onclick="shareToSocial('reddit')">Reddit</button>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; margin-top: 2rem;">
+                    <input type="text" id="shareLink" value="https://voiceforfilipinos.org" readonly style="flex: 1; padding: 1rem; border: 2px solid #ddd;">
+                    <button onclick="copyLink()" class="btn">COPY LINK</button>
+                </div>
+                <div id="copyNotification" style="display: none; text-align: center; margin-top: 1rem; color: #4CAF50; font-weight: 600;">✓ Link copied!</div>
+            </div>
+        </section>
+
+        <!-- SHARED IDENTITY -->
+        <section class="section">
+            <div class="container" style="max-width: 800px; text-align: center;">
+                <h2 class="section-title">We Are All Affected</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">👨‍👩‍👧‍👦</div>
+                        <strong>Families</strong>
+                        <p style="font-size: 0.85rem; color: #666;">Broken by delayed justice</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">✈️</div>
+                        <strong>OFWs</strong>
+                        <p style="font-size: 0.85rem; color: #666;">Abandoned abroad</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">♿</div>
+                        <strong>PWDs</strong>
+                        <p style="font-size: 0.85rem; color: #666;">Ignored by system</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">💼</div>
+                        <strong>Workers</strong>
+                        <p style="font-size: 0.85rem; color: #666;">Exploited daily</p>
+                    </div>
+                </div>
+                
+                <div class="viral-quote" onclick="shareQuote(2)">
+                    <div class="quote-text">
+                        "Politics divide us, but injustice affects us all."
+                    </div>
+                    <div class="quote-action">📸 TAP TO SHARE THIS TRUTH</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about" class="page-section">
+        <div style="padding-top: 120px;">
+            <section class="section">
+                <div class="container" style="max-width: 900px;">
+                    <h2 class="section-title">About Voice for Filipinos</h2>
+                    
+                    <div style="text-align: center; margin-bottom: 4rem;">
+                        <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 2rem;">
+                            Voice for Filipinos exists because the collapse of justice in the Philippines is not a legal issue alone—<strong>it is a national emergency.</strong>
+                        </p>
+                        <p style="font-size: 1rem; color: #666; line-height: 1.8;">
+                            When laws serve the powerful instead of the people, corruption becomes culture and poverty becomes inheritance.
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+                        <div style="text-align: center; padding: 2rem; border: 1px solid #e8e8e8;">
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Mission</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Expose corruption, shame injustice, amplify silenced voices</p>
+                        </div>
+                        <div style="text-align: center; padding: 2rem; border: 1px solid #e8e8e8;">
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Vision</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Justice not for sale. Truth not delayed. Power held accountable</p>
+                        </div>
+                        <div style="text-align: center; padding: 2rem; border: 1px solid #e8e8e8;">
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Impact</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Permanent archive. Global platform. Unbreakable solidarity</p>
+                        </div>
+                    </div>
+
+                    <div class="viral-quote" onclick="shareQuote(3)">
+                        <div class="quote-text">
+                            "I lived it. I carry the scars. Now I fight so others don't have to."
+                        </div>
+                        <div class="quote-action">📸 SHARE THE FOUNDER'S STORY</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ISSUES PAGE -->
+    <div id="issues" class="page-section">
+        <div style="padding-top: 120px;">
+            <section class="section">
+                <div class="container">
+                    <h2 class="section-title">Current Issues</h2>
+                    
+                    <div class="issues-grid">
+                        <div class="issue-card" onclick="showSection('community')">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">⚖️</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Judicial & Legal Abuse</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Courts for sale, fake lawyers, dismissed cases, judicial corruption</p>
+                            <button class="btn" style="font-size: 0.85rem; padding: 0.75rem 1.5rem;">SHARE YOUR CASE</button>
+                        </div>
+                        
+                        <div class="issue-card" onclick="showSection('community')">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">💰</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Corruption & Politics</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Government fund misuse, political scams, syndicates stealing from people</p>
+                            <button class="btn" style="font-size: 0.85rem; padding: 0.75rem 1.5rem;">SHARE YOUR CASE</button>
+                        </div>
+                        
+                        <div class="issue-card" onclick="showSection('community')">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">✈️</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">OFWs & Migrants</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Recruitment scams, workplace abuse, abandoned cases overseas</p>
+                            <button class="btn" style="font-size: 0.85rem; padding: 0.75rem 1.5rem;">SHARE YOUR CASE</button>
+                        </div>
+                        
+                        <div class="issue-card" onclick="showSection('community')">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">♿</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">PWDs & Health</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Fake medical practitioners, lack of support, medical negligence</p>
+                            <button class="btn" style="font-size: 0.85rem; padding: 0.75rem 1.5rem;">SHARE YOUR CASE</button>
+                        </div>
+                        
+                        <div class="issue-card" onclick="showSection('community')">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">💼</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Business & Daily Life</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Price manipulation, overpriced essentials, high cost of living</p>
+                            <button class="btn" style="font-size: 0.85rem; padding: 0.75rem 1.5rem;">SHARE YOUR CASE</button>
+                        </div>
+                        
+                        <div class="issue-card" onclick="showSection('community')">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">👥</div>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Human Rights & Labor</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Worker exploitation, silenced protests, violations of basic rights</p>
+                            <button class="btn" style="font-size: 0.85rem; padding: 0.75rem 1.5rem;">SHARE YOUR CASE</button>
+                        </div>
+                    </div>
+
+                    <div class="viral-quote" onclick="shareQuote(4)" style="margin-top: 4rem;">
+                        <div class="quote-text">
+                            "Every step—from barangay desk to Supreme Court—has been hijacked by the judicial mafia syndicate."
+                        </div>
+                        <div class="quote-action">📸 EXPOSE THE SYSTEM</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- SOLUTIONS PAGE -->
+    <div id="solutions" class="page-section">
+        <div style="padding-top: 120px;">
+            <section class="section">
+                <div class="container" style="max-width: 900px; text-align: center;">
+                    <h2 class="section-title">Solutions</h2>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 3rem;">Non-partisan Filipino movements for systematic change</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div style="padding: 2rem; border: 1px solid #e8e8e8;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">⚖️</div>
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Judicial Reform</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Transparency, citizen oversight, traceable case management</p>
+                        </div>
+                        
+                        <div style="padding: 2rem; border: 1px solid #e8e8e8;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🔍</div>
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Anti-Corruption Archive</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Permanent record preventing historical revision</p>
+                        </div>
+                        
+                        <div style="padding: 2rem; border: 1px solid #e8e8e8;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🌍</div>
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">OFW Protection</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Global solidarity network and emergency support</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- COMMUNITY PAGE -->
+    <div id="community" class="page-section">
+        <!-- EMERGENCY BANNER -->
+        <div style="background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); color: white; padding: 1.5rem 2rem; margin-top: 80px; text-align: center;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">🚨 NEED URGENT HELP?</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 1rem;">Contact emergency services first. We document your case.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="mailto:emergency@voiceforfilipinos.org" style="background: white; color: #e53e3e; padding: 0.75rem 1.5rem; text-decoration: none; font-weight: 700; font-size: 0.85rem;">EMAIL EMERGENCY</a>
+                <a href="https://wa.me/639770267711" style="background: transparent; color: white; border: 2px solid white; padding: 0.75rem 1.5rem; text-decoration: none; font-weight: 700; font-size: 0.85rem;">WHATSAPP NOW</a>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container" style="max-width: 800px;">
+                <h2 class="section-title">Share Your Voice</h2>
+                <p style="text-align: center; margin-bottom: 3rem;">Every story becomes part of our permanent archive. Your testimony = our collective power.</p>
+                
+                <form style="background: #f8f8f8; padding: 3rem 2rem; margin-bottom: 3rem;">
+                    <div class="form-group">
+                        <label>Issue Category</label>
+                        <select required>
+                            <option value="">Select Category</option>
+                            <option value="judicial">Judicial & Legal Abuse</option>
+                            <option value="corruption">Corruption & Politics</option>
+                            <option value="ofw">OFWs & Migrants</option>
+                            <option value="pwd">PWDs & Health</option>
+                            <option value="business">Business & Daily Life</option>
+                            <option value="labor">Human Rights & Labor</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" placeholder="City/Province/Country" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>When did this occur?</label>
+                        <input type="text" placeholder="Month/Year" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Your Story</label>
+                        <textarea placeholder="Tell your story with specific details..." required style="height: 150px;"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Contact (Optional)</label>
+                        <input type="email" placeholder="Email for updates">
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%; font-size: 1rem; padding: 1.25rem;">SUBMIT YOUR VOICE</button>
+                    
+                    <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #666;">
+                        🔒 Identity protected • ✓ Verified stories only • ⏱️ 48-hour response
+                    </p>
+                </form>
+
+                <div class="viral-quote" onclick="shareQuote(5)">
+                    <div class="quote-text">
+                        "We are not just witnesses. We are the archive. We are the movement."
+                    </div>
+                    <div class="quote-action">📸 SHARE OUR POWER</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- MEDIA PAGE -->
+    <div id="media" class="page-section">
+        <div style="padding-top: 120px;">
+            <section class="section">
+                <div class="container" style="max-width: 900px; text-align: center;">
+                    <h2 class="section-title">Media & Documentation</h2>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 3rem;">Visual truth that cannot be denied</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div style="padding: 2rem; border: 1px solid #e8e8e8;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">📱</div>
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Social Media Hub</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Daily content, awareness campaigns, viral truth</p>
+                        </div>
+                        
+                        <div style="padding: 2rem; border: 1px solid #e8e8e8;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🎨</div>
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Visual Campaigns</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Faces of injustice, screenshot-worthy stories</p>
+                        </div>
+                        
+                        <div style="padding: 2rem; border: 1px solid #e8e8e8;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                            <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">Truth Archive</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Searchable database, permanent record</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="page-section">
+        <div style="padding-top: 120px;">
+            <section class="section">
+                <div class="container" style="max-width: 900px;">
+                    <h2 class="section-title">Contact Us</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem; text-align: center;">
+                        <div>
+                            <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 1px;">GENERAL</h4>
+                            <a href="mailto:inquiry@voiceforfilipinos.org" style="color: #666; text-decoration: none; font-size: 0.9rem;">inquiry@voiceforfilipinos.org</a>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 1px;">MEDIA</h4>
+                            <a href="mailto:media@voiceforfilipinos.org" style="color: #666; text-decoration: none; font-size: 0.9rem;">media@voiceforfilipinos.org</a>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 1px;">INTERNATIONAL</h4>
+                            <a href="mailto:international@voiceforfilipinos.org" style="color: #666; text-decoration: none; font-size: 0.9rem;">international@voiceforfilipinos.org</a>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 1px;">WHATSAPP</h4>
+                            <a href="https://wa.me/639770267711" style="color: #666; text-decoration: none; font-size: 0.9rem;">+63 977 026 7711</a>
+                        </div>
+                    </div>
+
+                    <div class="viral-quote" onclick="shareQuote(6)">
+                        <div class="quote-text">
+                            "Together, we amplify truth. Together, we demand justice."
+                        </div>
+                        <div class="quote-action">📸 UNITE WITH US</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container" style="max-width: 900px;">
+            <div style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 300; margin-bottom: 0.5rem;">Voice for Filipinos</h2>
+                <p style="color: #666; font-size: 0.9rem; font-style: italic;">Your voice matters. Your story counts. Your struggle will not be forgotten.</p>
+            </div>
+            
+            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <a href="https://www.instagram.com/newfilipinos" target="_blank" style="color: #000; opacity: 0.6; transition: opacity 0.3s;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="https://www.youtube.com/@VoiceforFilipinos" target="_blank" style="color: #000; opacity: 0.6; transition: opacity 0.3s;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                </a>
+                <a href="https://x.com/voices_hub" target="_blank" style="color: #000; opacity: 0.6; transition: opacity 0.3s;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div style="border-top: 1px solid #e0e0e0; padding-top: 1.5rem;">
+                <p style="font-size: 0.85rem; color: #999;">© 2024 Voice for Filipinos. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Animated Counter
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    element.textContent = Math.floor(current).toLocaleString();
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target >= 1000 ? target.toLocaleString() + '+' : target;
+                }
+            };
+            updateCounter();
+        }
+
+        // Intersection Observer for Stats
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numbers = entry.target.querySelectorAll('.stat-number');
+                    numbers.forEach(num => {
+                        if (num.textContent === '0') animateCounter(num);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        setTimeout(() => {
+            const statsSection = document.querySelector('.stats-banner');
+            if (statsSection) observer.observe(statsSection);
+        }, 100);
+
+        // Social Share
+        function shareToSocial(platform) {
+            const url = encodeURIComponent('https://voiceforfilipinos.org');
+            const text = encodeURIComponent('Voice for Filipinos - Exposing corruption, demanding justice. Join the movement. #VoiceForFilipinos #JusticeForFilipinos');
+            
+            const urls = {
+                instagram: 'https://www.instagram.com/newfilipinos',
+                facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+                tiktok: 'https://www.tiktok.com/@voiceforfilipinos',
+                twitter: `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+                youtube: 'https://www.youtube.com/@VoiceforFilipinos',
+                linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+                spotify: 'https://open.spotify.com/show/voiceforfilipinos',
+                pinterest: `https://pinterest.com/pin/create/button/?url=${url}&description=${text}`,
+                substack: 'https://voiceforfilipinos.substack.com',
+                reddit: `https://reddit.com/submit?url=${url}&title=${text}`
+            };
+            
+            if (urls[platform]) window.open(urls[platform], '_blank', 'width=600,height=400');
+        }
+
+        // Copy Link
+        function copyLink() {
+            const input = document.getElementById('shareLink');
+            input.select();
+            navigator.clipboard.writeText(input.value).then(() => {
+                const notification = document.getElementById('copyNotification');
+                notification.style.display = 'block';
+                setTimeout(() => notification.style.display = 'none', 3000);
+            });
+        }
+
+        // Share Quote
+        function shareQuote(num) {
+            const quotes = {
+                1: "Without justice, every anti-corruption promise is theater, every crime a rehearsal for the next, and every citizen forced to live where truth is delayed until it dies.",
+                2: "Politics divide us, but injustice affects us all.",
+                3: "I lived it. I carry the scars. Now I fight so others don't have to.",
+                4: "Every step—from barangay desk to Supreme Court—has been hijacked by the judicial mafia syndicate.",
+                5: "We are not just witnesses. We are the archive. We are the movement.",
+                6: "Together, we amplify truth. Together, we demand justice."
+            };
+            
+            const quote = `${quotes[num]} - Voice for Filipinos\n\nhttps://voiceforfilipinos.org\n\n#VoiceForFilipinos #JusticeForFilipinos`;
+            
+            if (navigator.share) {
+                navigator.share({ title: 'Voice for Filipinos', text: quote });
+            } else {
+                navigator.clipboard.writeText(quote).then(() => {
+                    alert('✓ Quote copied! Paste it anywhere to share this truth.');
+                });
+            }
+        }
+
+        // Form Submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you! Your voice has been received. We will review and respond within 48 hours.');
+                    form.reset();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
